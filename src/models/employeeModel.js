@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export const EmployeeSchema = new Schema({
-    firstName: {
+    first_name: {
         type: String,
         required: 'Enter a first Name'
 
     },
-    lastName: {
+    last_name: {
         type: String,
         required: 'Enter a last Name'
     },
@@ -25,16 +25,20 @@ export const EmployeeSchema = new Schema({
         type: String,
         required: 'Enter Workday ID'
     },
-    login: {
+    login_id: {
         type: ObjectId,
         ref: 'Login'
     },
-    attendance: {
+    attendance_id: {
         type: ObjectId,
         ref: 'Attendance'
     },
     created_date: {
         type: Date,
-        default: Date.now
+        default: Date.now()
+    },
+    modified_date: {
+        type: Date,
+        default: Date.now()
     }
 });

@@ -24,13 +24,17 @@ export const AttendanceSchema = new Schema({
         type: [Date],
         required: 'Leave dates are required'
     },
-    current_location: {
-        type: String,
-        required: 'Current location is required'
+    location_id: {
+        type: ObjectId,
+        ref: 'Location'
     },
     created_date: {
         type: Date,
-        default: Date.now
+        default: Date.now()
+    },
+    modified_date: {
+        type: Date,
+        default: Date.now()
     }
 });
 
