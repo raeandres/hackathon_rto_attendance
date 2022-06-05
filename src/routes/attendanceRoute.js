@@ -8,7 +8,7 @@ const routes = (app) => {
     app.route('/login')
         .post(employeeLogin);
 
-    app.route('/employee/:email')
+    app.route('/employee/:workday_id')
         .get(getEmployee)
         .post((req, res) => {
             res.send('POST request from Employee Endpoint!');

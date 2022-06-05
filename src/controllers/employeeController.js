@@ -5,14 +5,14 @@ import { EmployeeSchema } from "../models/employeeModel";
 const Employee = mongoose.model('Employee', EmployeeSchema);
 
 export const getEmployee = (req, res) => {
-    Employee.findOne(req.body.email, (err, employee) => {
+    Employee.findOne(req.body.workday_id, (err, employee) => {
         if (err) {
             res.send(err);
         }
         else {
             let response = {
                 "status": "success",
-                "message": "Login Successful",
+                "message": "Request Successful",
                 "data": {
                     employee_info: employee
                 }
