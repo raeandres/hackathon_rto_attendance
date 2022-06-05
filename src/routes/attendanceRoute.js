@@ -1,3 +1,6 @@
+import { employeeLogin } from '../controllers/loginController';
+
+
 const routes = (app) => {
 
     const testCredential = {
@@ -6,18 +9,19 @@ const routes = (app) => {
     };
 
     app.route('/login')
-        .post((req, res,next) => {
-            if(req.body.email == testCredential.email && req.body.password == testCredential.password) {
-                req.session.user = req.body.email;
-                res.redirect('/attendance');
-            } else {
-                res.send("Invalid credentials");
-            }
-        }
+        .post(employeeLogin);
+        // .post((req, res,next) => {
+        //     if(req.body.email == testCredential.email && req.body.password == testCredential.password) {
+        //         req.session.user = req.body.email;
+        //         res.redirect('/attendance');
+        //     } else {
+        //         res.send("Invalid credentials");
+        //     }
+        // }
         // ,(req, res) => {
         //     res.send('POST request from Login Endpoint!');
         // }
-        );
+        // );
 
     app.route('/employee')
         .get((req, res) => {
