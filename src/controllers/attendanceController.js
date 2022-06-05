@@ -33,4 +33,4 @@ export const enterAttendance = (req, res) => {
     //         res.send(employee);
     //     }
     // });
-};
+}; 

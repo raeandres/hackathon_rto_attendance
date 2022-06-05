@@ -24,4 +24,4 @@ export const LoginSchema = new Schema({
         type: Date,
         default: Date.now()
     }
-});
+}); 

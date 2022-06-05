@@ -19,6 +19,6 @@ export const getEmployee = (req, res) => {
             }
             res.json(response);
         }
-    });
+    }); 
 }
 

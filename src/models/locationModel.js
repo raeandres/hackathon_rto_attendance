@@ -28,7 +28,7 @@ export const LocationSchema = new Schema({
         type: Date,
         default: Date.now()
     }
-});
+}); 
 
 
 

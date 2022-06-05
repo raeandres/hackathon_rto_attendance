@@ -30,5 +30,5 @@ export const employeeLogin = (req, res) => {
                 res.send('Invalid credentials');
             }
         }
-    });
+    }); 
 }

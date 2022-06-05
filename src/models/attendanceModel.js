@@ -36,7 +36,7 @@ export const AttendanceSchema = new Schema({
         type: Date,
         default: Date.now()
     }
-});
+}); 
 
 
 

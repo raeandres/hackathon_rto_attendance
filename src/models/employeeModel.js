@@ -41,4 +41,4 @@ export const EmployeeSchema = new Schema({
         type: Date,
         default: Date.now()
     }
-});
+}); 
