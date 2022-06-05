@@ -1,13 +1,12 @@
 import { employeeLogin } from '../controllers/loginController';
 import { getEmployee } from '../controllers/employeeController';
+import { getLocation } from '../controllers/locationController';
 
 
 const routes = (app) => {
 
     app.route('/login')
-        .post((req, res) => {
-            employeeLogin(req, res);
-        });
+        .post(employeeLogin);
 
     app.route('/employee/:email')
         .get(getEmployee)
@@ -30,6 +29,9 @@ const routes = (app) => {
         .put((req, res) => {
             res.send('PUT request with ID from Attendance Endpoint!');
         })
+
+    app.route('/location')
+        .post(getLocation)
 
 
  
