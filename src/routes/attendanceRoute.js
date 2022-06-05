@@ -8,14 +8,16 @@ const routes = (app) => {
     app.route('/login')
         .post((req, res,next) => {
             if(req.body.email == testCredential.email && req.body.password == testCredential.password) {
-                // req.session.user = req.body.email;
+                req.session.user = req.body.email;
                 res.redirect('/attendance');
             } else {
                 res.send("Invalid credentials");
             }
-        },(req, res) => {
-            res.send('POST request from Login Endpoint!');
-        });
+        }
+        // ,(req, res) => {
+        //     res.send('POST request from Login Endpoint!');
+        // }
+        );
 
     app.route('/employee')
         .get((req, res) => {
