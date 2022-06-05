@@ -29,7 +29,10 @@ const routes = (app) => {
         .put((req, res) => {
             res.send('PUT request with ID from Attendance Endpoint!');
         })
-    
+        
+    app.route('/location')
+        .post(getLocation)
+
 }
 
 export default routes;
