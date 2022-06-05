@@ -1,15 +1,9 @@
+import { redirect } from "express/lib/response";
 import mongoose from "mongoose";
 import { LoginSchema } from "../models/loginModel";
-import { EmployeeSchema } from "../models/employeeModel";
-import { AttendanceSchema } from "../models/attendanceModel";
-import { LocationSchema } from "../models/locationModel";
-import { ObjectId } from "mongodb";
 
 
 const Login = mongoose.model('Login', LoginSchema);
-const Employee = mongoose.model('Employee', EmployeeSchema);
-const Attendance = mongoose.model('Attendance', AttendanceSchema);
-const Location = mongoose.model('Location', LocationSchema);
 
 export const employeeLogin = (req, res) => {
     Login.findOne({
@@ -21,8 +15,15 @@ export const employeeLogin = (req, res) => {
         }
         else {
             if (login) {
+                let response = {
+                    "status": "success",
+                    "message": "Login Successful",
+                    "data": {
+                        email: login.email
+                    }
+                }
                 console.log(login);
-                res.send(login);
+                res.send(response);
             }
             else {
                 console.log('Invalid credentials');
