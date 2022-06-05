@@ -9,7 +9,7 @@ const routes = (app) => {
             employeeLogin(req, res);
         });
 
-    app.route('/employee/:email')
+    app.route('/employee/:workday_id')
         .get(getEmployee)
         .post((req, res) => {
             res.send('POST request from Employee Endpoint!');
