@@ -21,6 +21,7 @@ export const getLocation = (req, res) => {
             res.send(err);
         }
         else {
+            // evaluate the response if the client's location is within Bel-Air Makati City
             let response = {
                 "status": "success",
                 "message": "Login Successful",
