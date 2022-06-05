@@ -30,39 +30,6 @@ const routes = (app) => {
         .put((req, res) => {
             res.send('PUT request with ID from Attendance Endpoint!');
         })
-
-
- 
-//  ////////////////////////////////////////////////////////////////////////
-
-
-    app.route('/contact')
-        .get((req, res, next) => {
-            // middleware
-            console.log(`Request from: ${req.originalUrl}`);
-            console.log(`Request type: ${req.method}`);
-            next();
-        },(req,res,next) => {
-            res.send('GET request to the homepage')
-        })
-
-        .post((req, res) => {
-            res.send('POST request to the homepage')
-        });
-
-    app.route('/contact/:contactId')
-        .get((req, res) => {
-            res.send('GET specific item request to the homepage')
-        })
-
-        .put((req, res) => {
-            res.send('PUT request to the homepage')
-        })
-
-        .delete((req, res) => {
-            res.send('DELETE request to the homepage')
-        });
-
     
 }
 
