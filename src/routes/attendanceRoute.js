@@ -1,5 +1,4 @@
 import { employeeLogin } from '../controllers/loginController';
-import { getEmployee } from '../controllers/employeeController';
 
 
 const routes = (app) => {
@@ -10,7 +9,9 @@ const routes = (app) => {
         });
 
     app.route('/employee/:email')
-        .get(getEmployee)
+        .get((req, res) => {
+            res.send('GET request from Employee Endpoint!');
+        })
         .post((req, res) => {
             res.send('POST request from Employee Endpoint!');
         });
