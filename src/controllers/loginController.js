@@ -19,7 +19,8 @@ export const employeeLogin = (req, res) => {
                     "status": "success",
                     "message": "Login Successful",
                     "data": {
-                        email: login.email
+                        email: login.email,
+                        workday_id: login.workday_id,
                     }
                 }
                 console.log(login);
@@ -30,5 +31,6 @@ export const employeeLogin = (req, res) => {
                 res.send('Invalid credentials');
             }
         }
-    }); 
+    });
+
 }

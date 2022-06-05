@@ -12,6 +12,10 @@ export const LoginSchema = new Schema({
         type: String,
         required: 'Enter a password'
     },
+    workday_id: {
+        type: String,
+        required: 'Enter Workday ID'
+    },
     session: {
         type: String,
         required: 'Enter a session'

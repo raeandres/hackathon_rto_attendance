@@ -33,6 +33,7 @@ const routes = (app) => {
     app.route('/location')
         .post(getLocation)
 
+    
 }
 
 export default routes;
