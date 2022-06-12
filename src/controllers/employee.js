@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { EmployeeSchema } from "../models/employeeModel";
+import { EmployeeSchema } from "../models/employee";
 
 
 const Employee = mongoose.model('Employee', EmployeeSchema);

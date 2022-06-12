@@ -1,14 +1,13 @@
 import { redirect } from "express/lib/response";
 import mongoose from "mongoose";
-import { LoginSchema } from "../models/loginModel";
+import { LoginSchema } from "../models/login";
 
 
 const Login = mongoose.model('Login', LoginSchema);
 
 export const employeeLogin = (req, res) => {
     Login.findOne({
-        email: req.body.email,
-        password: req.body.password
+        email: req.body.email
     }, (err, login) => {
         if (err) {
             res.send(err);

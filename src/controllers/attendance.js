@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
-import { LoginSchema } from "../models/loginModel";
-import { EmployeeSchema } from "../models/employeeModel";
-import { AttendanceSchema } from "../models/attendanceModel";
-import { LocationSchema } from "../models/locationModel";
-import { ObjectId } from "mongodb";
+import { AttendanceSchema, EmployeeSchema, LocationSchema } from "../models";
 
 
 const Employee = mongoose.model('Employee', EmployeeSchema);

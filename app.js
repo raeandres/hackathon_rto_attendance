@@ -1,47 +1,57 @@
 import express from "express";
-import routes from "./src/routes/attendanceRoute";
+import routes from "./src/routes";
 import session from "express-session";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-const { v4: uuidv4 } = require("uuid"); // to make session id unique
+import createError from "http-errors";
 
+const { v4: uuidv4 } = require("uuid"); // to make session id unique
 const app = express();
 const port = process.env.PORT || 4000;
 
 // mongoose connection
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/attendance", {
+mongoose
+  .connect("mongodb://localhost/attendance", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-})
-.then()
-.catch(err => {
+  })
+  .then()
+  .catch((err) => {
     console.log("MongoDB connection error:", err);
-});
+  });
 
 // bodyparser setup
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(session({
-    secret: uuidv4(), 
+app.use(
+  session({
+    secret: uuidv4(),
     resave: false,
     saveUninitialized: true,
-}));
-
+  })
+);
 
 // app routes
-routes(app);
+app.use(routes);
+app.get("/", (req, res) => {
+  res.send("Node and express server running on port " + port);
+});
 
-app.get('/', (req, res) => 
-{
-    res.send('Node and express server running on port ' + port);
-}
-);
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
-app.listen(port, () =>
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-   console.log(`Your server is running on port ${port}`)
-);
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
 
-
+app.listen(port, () => console.log(`Your server is running on port ${port}`));
