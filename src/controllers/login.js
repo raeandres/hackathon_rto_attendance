@@ -7,7 +7,7 @@ export const loginEmployee = (request, response) => {
 
     Login.findOne({ email }, (err, result) => {
         if (err) {
-            res.send(err);
+            response.send(err);
         } else {
             if (result) {
                 if (result.uuid === uuid) {
@@ -25,7 +25,7 @@ export const loginEmployee = (request, response) => {
 
             login.save(function (err) {
                 if (err) {
-                    res.send(err);
+                    response.send(err);
                 } else {
                     response.status(200).send({
                         code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
