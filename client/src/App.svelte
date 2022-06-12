@@ -18,13 +18,16 @@
         .then(res => res.visitorId);
 
     async function checkIn() {
-        const url = import.meta.env.DEV ? `${import.meta.env.VITE_API_URL}/login` : '/api/login';
+        const url = import.meta.env.DEV ? `${import.meta.env.VITE_API_URL}/checkin` : '/api/checkin';
         console.log(url);
         payload.uuid = await uuid;
         submitting = true;
 
         const res = await fetch(url, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(payload),
         });
 

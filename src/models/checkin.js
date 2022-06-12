@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const LoginSchema = new Schema({
+export const CheckInSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -24,4 +24,4 @@ export const LoginSchema = new Schema({
     },
 });
 
-export default mongoose.model('Login', LoginSchema);
+export default mongoose.model('CheckIn', CheckInSchema);

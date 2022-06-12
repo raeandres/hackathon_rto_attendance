@@ -1,11 +1,13 @@
-import Login from '../models/login';
+import CheckIn from '../models/checkin';
 import { ERROR_CODE, SUCCESS_CODE } from '../common';
 
-export const loginEmployee = (request, response) => {
-    const login = new Login(request.body);
+export const checkIn = (request, response) => {
+    const login = new CheckIn(request.body);
     const { email, uuid } = login;
 
-    Login.findOne({ email }, (err, result) => {
+    console.log(request);
+
+    CheckIn.findOne({ email }, (err, result) => {
         if (err) {
             response.send(err);
         } else {

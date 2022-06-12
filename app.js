@@ -2,7 +2,6 @@ import express from 'express';
 import routes from './src/routes';
 import session from 'express-session';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 
@@ -28,11 +27,9 @@ app.use(
         ...(isDevMode && { origin: 'localhost:4000' }),
     })
 );
+app.use(express.json());
 
 app.use('/', express.static(path.join(__dirname, 'client/dist')));
-// bodyparser setup
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 // app routes
 app.use('/api', routes);
