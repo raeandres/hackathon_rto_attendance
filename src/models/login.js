@@ -1,31 +1,27 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 export const LoginSchema = new Schema({
-
     email: {
         type: String,
-        required: 'Enter a email'
+        required: true,
     },
-    password: {
+    uuid: {
         type: String,
-        required: 'Enter a password'
+        required: true,
     },
     workday_id: {
         type: String,
-        required: 'Enter Workday ID'
-    },
-    session: {
-        type: String,
-        required: 'Enter a session'
     },
     created_date: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
     },
     modified_date: {
         type: Date,
-        default: Date.now()
-    }
-}); 
+        default: Date.now(),
+    },
+});
+
+export default mongoose.model('Login', LoginSchema);

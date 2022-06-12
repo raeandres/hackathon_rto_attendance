@@ -1,9 +1,9 @@
 import express from 'express';
-import { employeeLogin } from "../controllers";
+import { loginEmployee } from '../controllers';
 
 const router = express.Router();
 
-router.route("/").post(employeeLogin);
+router.route('/').post(loginEmployee);
 
 // router
 //   .route("/employee/:workday_id")

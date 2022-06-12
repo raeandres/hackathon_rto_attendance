@@ -1,35 +1,37 @@
-import { redirect } from "express/lib/response";
-import mongoose from "mongoose";
-import { LoginSchema } from "../models/login";
+import Login from '../models/login';
+import { ERROR_CODE, SUCCESS_CODE } from '../common';
 
+export const loginEmployee = (request, response) => {
+    const login = new Login(request.body);
+    const { email, uuid } = login;
 
-const Login = mongoose.model('Login', LoginSchema);
-
-export const employeeLogin = (req, res) => {
-    Login.findOne({
-        email: req.body.email
-    }, (err, login) => {
+    Login.findOne({ email }, (err, result) => {
         if (err) {
             res.send(err);
-        }
-        else {
-            if (login) {
-                let response = {
-                    "status": "success",
-                    "message": "Login Successful",
-                    "data": {
-                        email: login.email,
-                        workday_id: login.workday_id,
-                    }
+        } else {
+            if (result) {
+                if (result.uuid === uuid) {
+                    response.status(200).send({
+                        code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
+                    });
+                    return;
                 }
-                console.log(login);
-                res.send(response);
+
+                response.status(401).send({
+                    code: ERROR_CODE.INVALID_UUID,
+                });
+                return;
             }
-            else {
-                console.log('Invalid credentials');
-                res.send('Invalid credentials');
-            }
+
+            login.save(function (err) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    response.status(200).send({
+                        code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
+                    });
+                }
+            });
         }
     });
-
-}
+};
