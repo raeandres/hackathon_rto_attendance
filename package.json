@@ -4,6 +4,7 @@
     "description": "Simple Node Project for RTO Attendance",
     "main": "app.js",
     "scripts": {
+        "start": "npm run build:client && nodemon ./app.js --exec babel-node -e js",
         "dev": "npm-run-all -p dev:server dev:client",
         "dev:server": "nodemon ./app.js --exec babel-node -e js",
         "dev:client": "vite serve client",

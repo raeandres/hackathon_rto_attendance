@@ -3,9 +3,8 @@ import { ERROR_CODE, SUCCESS_CODE } from '../common';
 
 export const checkIn = (request, response) => {
     const login = new CheckIn(request.body);
+    const { coords } = request.body; //User Location Coordinate
     const { email, uuid } = login;
-
-    console.log(request);
 
     CheckIn.findOne({ email }, (err, result) => {
         if (err) {

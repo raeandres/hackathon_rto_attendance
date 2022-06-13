@@ -3,10 +3,17 @@
     import fingerprint from '@fingerprintjs/fingerprintjs';
     import moment from 'moment';
     import Usage from './lib/Usage.svelte';
+    import Error from './lib/Error.svelte';
 
     let lastCheckInDate = localStorage.getItem('LAST_CHECKIN_DATE') ?? null;
     let userFingerprint = JSON.parse(localStorage.getItem('FINGERPRINT')) ?? null;
     let isCheckedIn = lastCheckInDate === moment().format('MM/DD/YYYY');
+
+    //Ask/Validate GeoLocation
+    navigator.geolocation.getCurrentPosition(
+        () => {},
+        () => handleLocationError()
+    );
 
     let date = moment().format('ddd MM/DD/YYYY');
     let clock = moment().format('HH:mm:ss A');
@@ -16,12 +23,12 @@
         uuid: userFingerprint?.uuid ?? '',
     };
 
-    let result;
+    let response;
     let submitting = false;
 
     async function checkIn() {
         const url = import.meta.env.DEV ? `${import.meta.env.VITE_API_URL}/checkin` : '/api/checkin';
-        payload.uuid = await getFingerprint();
+        payload.uuid = userFingerprint?.uuid ?? (await getFingerprint());
         submitting = true;
 
         const res = await fetch(url, {
@@ -29,7 +36,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ ...payload, coords: await getGeoLocation() }),
         });
 
         if (res.status === 200) {
@@ -40,7 +47,7 @@
         }
 
         submitting = false;
-        result = await res.json();
+        response = await res.json();
     }
 
     function getFingerprint() {
@@ -50,6 +57,24 @@
             .then(res => res.visitorId);
     }
 
+    async function getGeoLocation() {
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, () => handleLocationError());
+        });
+
+        return {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+        };
+    }
+
+    function handleLocationError() {
+        return {
+            status: 401,
+            code: 'LOCATION_ACCESS_DENIED',
+        };
+    }
+
     $: {
         setInterval(() => {
             clock = moment().format('HH:mm:ss A');
@@ -57,7 +82,6 @@
     }
 </script>
 
-<Usage />
 <nav class="navbar bg-neutral p-0 m-0">
     <a href="/"
         ><img class="h-[64px]" src="/images/manulife-logo-only.svg" alt="manulife-logo-only" />
@@ -65,39 +89,44 @@
     </a>
 </nav>
 <main class="max-w-md mx-auto w-full p-6 py-32">
-    {#if !isCheckedIn}
-        <div class="flex flex-col">
-            <div class="flex flex-col gap-2 items-center mb-16">
-                <h1 class="text-5xl font-bold">{clock}</h1>
-                <h3 class="text-lg font-semibold">{date}</h3>
-            </div>
-            {#if !userFingerprint}
-                <div class="form-control w-full">
-                    <label class="label" for="">
-                        <span class="label-text">Email (MFCGD)</span>
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="mitdc@mfcgd.com"
-                        class="input input-bordered w-full"
-                        bind:value={payload.email}
-                    />
+    {#if response?.status !== 401}
+        <Usage />
+        {#if !isCheckedIn}
+            <div class="flex flex-col">
+                <div class="flex flex-col gap-2 items-center mb-16">
+                    <h1 class="text-5xl font-bold">{clock}</h1>
+                    <h3 class="text-lg font-semibold">{date}</h3>
                 </div>
-            {:else}
-                <h2 class="text-center text-primary">Username: {payload.email}</h2>
-            {/if}
+                {#if !userFingerprint}
+                    <div class="form-control w-full">
+                        <label class="label" for="">
+                            <span class="label-text">Email (MFCGD)</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="mitdc@mfcgd.com"
+                            class="input input-bordered w-full"
+                            bind:value={payload.email}
+                        />
+                    </div>
+                {:else}
+                    <h2 class="text-center text-primary">Username: {payload.email}</h2>
+                {/if}
 
-            <button on:click={checkIn} class="btn btn-lg btn-secondary w-full mt-4" class:loading={submitting}>
-                Check-In
-            </button>
-        </div>
-    {:else}
-        <div class="flex flex-col gap-4 items-center">
-            <img src="/images/undraw_confirmed.svg" alt="confirmed" />
-            <div class="text-center">
-                <h1 class="text-xl font-bold text-primary">Success!</h1>
-                <h3 class="text-lg text-primary">You have already checked-in for today.</h3>
+                <button on:click={checkIn} class="btn btn-lg btn-secondary w-full mt-4" class:loading={submitting}>
+                    Check-In
+                </button>
             </div>
-        </div>
+        {:else}
+            <div class="flex flex-col gap-4 items-center">
+                <img src="/images/undraw_confirmed.svg" alt="confirmed" />
+                <div class="text-center">
+                    <h1 class="text-xl font-bold text-primary">Success!</h1>
+                    <h3 class="text-lg">You have already checked-in for today.</h3>
+                </div>
+            </div>
+        {/if}
+    {:else}
+        <Error code={response?.code} />
     {/if}
 </main>
