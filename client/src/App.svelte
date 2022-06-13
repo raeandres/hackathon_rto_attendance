@@ -69,7 +69,7 @@
     }
 
     function handleLocationError() {
-        return {
+        response = {
             status: 401,
             code: 'LOCATION_ACCESS_DENIED',
         };
