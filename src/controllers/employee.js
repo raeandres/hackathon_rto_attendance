@@ -1,8 +1,4 @@
-import mongoose from "mongoose";
-import { EmployeeSchema } from "../models/employee";
-
-
-const Employee = mongoose.model('Employee', EmployeeSchema);
+import Employee from '../models/employee';
 
 export const getEmployee = (req, res) => {
     Employee.findOne(req.body.workday_id, (err, employee) => {
@@ -20,5 +16,10 @@ export const getEmployee = (req, res) => {
             res.json(response);
         }
     }); 
+}
+
+export const upsertEmployee = async (email, workday_id) => {
+    let result = await Employee.findOneAndUpdate({email}, {}, { upsert: true})
+    return result
 }
 
