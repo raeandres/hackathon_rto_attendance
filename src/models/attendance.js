@@ -16,17 +16,13 @@ export const AttendanceSchema = new Schema({
         type: [String],
         required: 'wfh_schedule is required'
     },
-    in_office: {
-        type: [Date],
-        required: 'in-office dates are required'
-    },
-    on_leave: {
-        type: [Date],
-        required: 'Leave dates are required'
-    },
-    location_id: {
+    leaves: {
         type: ObjectId,
-        ref: 'Location'
+        ref: 'Leave'
+    },
+    employee_id: {
+        type: ObjectId,
+        ref: 'Employee'
     },
     created_date: {
         type: Date,
