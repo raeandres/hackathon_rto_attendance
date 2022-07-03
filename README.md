@@ -27,8 +27,8 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/#run-mon
 
 
 
-## To start NodeJS app
-npm start
+## To start NodeJS app:
+npm run dev
 
 
 go to http://localhost:4000
