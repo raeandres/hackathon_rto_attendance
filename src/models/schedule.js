@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-export const AttendanceSchema = new Schema({
+export const ScheduleSchema = new Schema({
     in_office_shedule_type: {
         type: String,
         required: 'Enter In Office Shedule Type (e.g. 3x a week, 1 week in office, 2 weeks in office)'
@@ -16,17 +16,13 @@ export const AttendanceSchema = new Schema({
         type: [String],
         required: 'wfh_schedule is required'
     },
-    in_office: {
-        type: [Date],
-        required: 'in-office dates are required'
-    },
-    on_leave: {
-        type: [Date],
-        required: 'Leave dates are required'
-    },
-    location_id: {
+    leave: {
         type: ObjectId,
-        ref: 'Location'
+        ref: 'Leave'
+    },
+    employee_id: {
+        type: ObjectId,
+        ref: 'Employee'
     },
     created_date: {
         type: Date,
