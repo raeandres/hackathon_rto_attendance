@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { AttendanceSchema, EmployeeSchema, LocationSchema } from "../models";
+import { ScheduleSchema, EmployeeSchema, LocationSchema } from "../models";
 
 
 const Employee = mongoose.model('Employee', EmployeeSchema);
-const Attendance = mongoose.model('Attendance', AttendanceSchema);
+const Attendance = mongoose.model('Schedule', ScheduleSchema);
 const Location = mongoose.model('Location', LocationSchema);
 
 export const enterAttendance = (req, res) => {

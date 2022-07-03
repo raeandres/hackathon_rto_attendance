@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const CheckInSchema = new Schema({
+    employee_id: {
+        type: ObjectId,
+        ref: 'Employee'
+    },
     email: {
         type: String,
         required: true,
@@ -11,8 +15,9 @@ export const CheckInSchema = new Schema({
         type: String,
         required: true,
     },
-    workday_id: {
-        type: String,
+    location: {
+        type: ObjectId,
+        ref: 'Location'
     },
     created_date: {
         type: Date,

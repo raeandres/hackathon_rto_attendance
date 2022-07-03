@@ -5,28 +5,29 @@ const Schema = mongoose.Schema;
 
 export const EmployeeSchema = new Schema({
     first_name: {
-        type: String,
-        require: 'First name is required'
+        type: String
     },
     last_name: {
-        type: String,
-        require: 'Last name is required'
+        type: String
+    },
+    workday_id: {
+        type: String
     },
     email: {
         type: String,
-        required: true
+        required: 'SSO from employee is required'
     },
-    workday_id: {
+    uuid: {
         type: String,
-        required: true
+        required: 'uuid from device is required'
     },
     check_ins: {
         type: [ObjectId],
         ref: 'Checkin'
     },
-    attendance: {
+    schedule: {
         type: ObjectId,
-        ref: 'Attendance'
+        ref: 'Schedule'
     },
     created_date: {
         type: Date,

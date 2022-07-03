@@ -16,10 +16,6 @@ export const LocationSchema = new Schema({
         type: String,
         required: 'Longitude is required'
     },
-    current_date: {
-        type: Date,
-        required: 'This date is required'
-    },
     created_date: {
         type: Date,
         default: Date.now()

@@ -4,10 +4,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export const LeaveSchema = new Schema({
-    employee_id: {
-        type: ObjectId,
-        ref: 'Employee'
-    },
     leave_type: {
         type: String,
         required: 'Enter leave type either Sick leave, or Planned Leave'
