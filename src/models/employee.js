@@ -8,6 +8,11 @@ export const EmployeeSchema = new Schema({
         type: String,
         required: true
     },
+    uuid: {
+        type: String,
+        required: true,
+        unique: true
+    },
     workday_id: {
         type: String
     },

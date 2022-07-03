@@ -18,8 +18,7 @@ export const getEmployee = (req, res) => {
     }); 
 }
 
-export const upsertEmployee = async (email, workday_id) => {
-    let result = await Employee.findOneAndUpdate({email}, {}, { upsert: true})
-    return result
+export const upsertEmployee = async (email, uuid, workday_id) => {
+    return await Employee.findOneAndUpdate({email, uuid}, {}, { upsert: true, new: true})
 }
 
