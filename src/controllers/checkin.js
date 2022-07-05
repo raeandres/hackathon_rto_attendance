@@ -7,11 +7,23 @@ export const checkIn = async (request, response) => {
     const login = new CheckIn(request.body);
     const { coords } = request.body; //User Location Coordinate
     const { email, uuid } = login;
+    let employee;
+
+    try {
+        employee = await upsertEmployee(email, uuid)
+    } catch (error) {
+        if (error.name === 'MongoServerError' && error.code === 11000) {
+            console.log(`Device sharing detected`)
+            response.status(401).send({
+                code: ERROR_CODE.INVALID_UUID,
+            });
+            return;
+        }
+    }
     
-    if (upsertEmployee(email)) {
-        CheckIn.findOne({ 
-            email, 
-            created_date: {
+    console.log('Employee fetched', employee)
+    if (employee) {
+        CheckIn.findOne({ email, created_date: {
                 $gte: moment().startOf('day').toDate(), 
                 $lt: moment().endOf('day').toDate()
         } }, (err, result) => {
@@ -20,30 +32,31 @@ export const checkIn = async (request, response) => {
                 response.send(err);
             } else {
                 if (result) {
-                    console.log(`Check in found`)
-                    if (result.uuid === uuid) {
-                        response.status(200).send({
-                            code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
-                        });
-                        return;
-                    }
-    
-                    response.status(401).send({
-                        code: ERROR_CODE.INVALID_UUID,
+                    console.log(`Already checked in for today`)
+                    response.status(200).send({
+                        code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
                     });
                     return;
                 }
     
-                console.log(`Create checkin`)
-                login.save(function (err) {
-                    if (err) {
-                        response.send(err);
-                    } else {
-                        response.status(200).send({
-                            code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
-                        });
-                    }
-                });
+                console.log(`Creating checkin for today`)
+                if (employee.uuid === uuid) {
+                    login.save(function (err) {
+                        if (err) {
+                            console.log(`Failed to checkin ${err}`)
+                            response.send(err);
+                        } else {
+                            console.log(`Successful checkin`)
+                            response.status(200).send({
+                                code: SUCCESS_CODE.LOGIN_SUCCESSFUL,
+                            });
+                        }
+                    });
+                } else {
+                    response.status(401).send({
+                        code: ERROR_CODE.INVALID_UUID,
+                    });
+                }
             }
         });
     }

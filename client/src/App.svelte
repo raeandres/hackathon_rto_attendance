@@ -25,6 +25,7 @@
 
     let response;
     let submitting = false;
+    let errorMessage = "";
 
     async function checkIn() {
         const url = import.meta.env.DEV ? `${import.meta.env.VITE_API_URL}/checkin` : '/api/checkin';
@@ -44,6 +45,8 @@
             localStorage.setItem('LAST_CHECKIN_DATE', moment().format('MM/DD/YYYY'));
             localStorage.setItem('FINGERPRINT', JSON.stringify(userFingerprint));
             isCheckedIn = true;
+        } else if (res.status === 401) {
+            errorMessage = "Please use another device to check in"
         }
 
         submitting = false;
@@ -116,6 +119,9 @@
                 <button on:click={checkIn} class="btn btn-lg btn-secondary w-full mt-4" class:loading={submitting}>
                     Check-In
                 </button>
+                <label class="label" for="">
+                    <span class="error-text">{ errorMessage }</span>
+                </label>
             </div>
         {:else}
             <div class="flex flex-col gap-4 items-center">
