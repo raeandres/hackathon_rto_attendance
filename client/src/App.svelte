@@ -80,7 +80,7 @@
 
     $: {
         setInterval(() => {
-            clock = moment().format('HH:mm:ss A');
+            clock = moment().format('hh:mm:ss A');
         }, 1000);
     }
 </script>
